@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Peatukk 3 - Loovtoo</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body data-chapter="3">
+	<header class="topbar">
+		<div class="wrap topbar-inner">
+			<a class="brand" href="index.html">Loovtoo</a>
+			<div class="global-progress" aria-live="polite">
+				<span id="globalOpened">0</span>/<span id="globalTotal">0</span> avatud
+				<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="globalMeter">
+					<div class="meter-fill" id="globalFill"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main class="wrap chapter-shell" id="chapterRoot">
+		<aside class="side-panel">
+			<h1 id="chapterTitle"></h1>
+			<p id="chapterDescription"></p>
+			<div class="chapter-progress" aria-live="polite">
+				<div><span id="chapterOpened">0</span>/<span id="chapterTotal">0</span> tunnist avatud</div>
+				<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="chapterMeter">
+					<div class="meter-fill" id="chapterFill"></div>
+				</div>
+			</div>
+			<div class="top-tools">
+				<a class="open-link" href="index.html">Tagasi avalehele</a>
+				<button class="ghost-btn" id="clearChapter" type="button">Tuhjenda peatuki staatus</button>
+			</div>
+			<ul class="lesson-list" id="lessonList"></ul>
+		</aside>
+
+		<section class="viewer">
+			<div class="viewer-head">
+				<h2 id="viewerTitle">Vali tund vasakult</h2>
+				<p id="viewerMeta">Ava tund nupust, et kuvada selle sisu.</p>
+			</div>
+			<div class="viewer-body" id="lessonContent"><p class="viewer-empty">Tunni sisu kuvatakse siia.</p></div>
+		</section>
+	</main>
+
+	<script src="javascript.js"></script>
+</body>
+</html>
