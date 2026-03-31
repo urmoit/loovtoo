@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.5 – Stiilid ja klassid</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <main>
+        <a href="../../index.html" class="back-btn">← Tagasi avalehele</a>
+        <h2>2.5 – Stiilid ja klassid</h2>
+        <p>HTML-is saab elementidele määrata klassid (<code>class</code>) ja id-d (<code>id</code>), et neid CSS-iga kujundada. Klassid võimaldavad sama stiili rakendada mitmele elemendile, id on unikaalne ühe elemendi jaoks.</p>
+        <div class="example-container">
+            <div class="example-code">
+<pre><code>&lt;style&gt;
+.important {
+  color: #e63946;
+  font-weight: bold;
+}
+#highlight {
+  background: yellow;
+}
+&lt;/style&gt;
+&lt;p class="important"&gt;See tekst on tähtis.&lt;/p&gt;
+&lt;p id="highlight"&gt;See tekst on esiletõstetud.&lt;/p&gt;</code></pre>
+            </div>
+            <div class="example-preview">
+                <style>
+                .important { color: #e63946; font-weight: bold; }
+                #highlight { background: yellow; }
+                </style>
+                <p class="important">See tekst on tähtis.</p>
+                <p id="highlight">See tekst on esiletõstetud.</p>
+            </div>
+        </div>
+        <ul>
+            <li><b>class</b> – võimaldab määrata elemendile ühe või mitu klassi</li>
+            <li><b>id</b> – unikaalne identifikaator ühe elemendi jaoks</li>
+            <li>CSS-is kasutatakse klassi ees <code>.</code> ja id ees <code>#</code></li>
+        </ul>
+        <p>Klasside ja id-de kasutamine muudab kujunduse paindlikuks ja koodi korrastatuks. Proovi ise erinevaid klasse ja id-sid kasutada!</p>
+    </main>
+</body>
+</html>
+

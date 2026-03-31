@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.3 – Nupud</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <main>
+        <a href="../../index.html" class="back-btn">← Tagasi avalehele</a>
+        <h2>4.3 – Nupud</h2>
+        <p>Nupud (<code>&lt;button&gt;</code> või <code>&lt;input type="button"&gt;</code>) võimaldavad kasutajal vormi esitada või käivitada muid tegevusi. Nuppudele saab lisada teksti, ikoone või isegi pilte.</p>
+        <div class="example-container">
+            <div class="example-code">
+<pre><code>&lt;button type="submit"&gt;Saada&lt;/button&gt;
+&lt;button type="button" onclick="alert('Tere!')"&gt;Tervita&lt;/button&gt;
+&lt;input type="button" value="Kliki mind!"&gt;</code></pre>
+            </div>
+            <div class="example-preview">
+                <form onsubmit="return false;">
+                  <button type="submit">Saada</button>
+                  <button type="button" onclick="alert('Tere!')">Tervita</button>
+                  <input type="button" value="Kliki mind!">
+                </form>
+            </div>
+        </div>
+        <ul>
+            <li><b>&lt;button&gt;</b> – paindlikum, saab lisada sisu (nt <code>&lt;img&gt;</code> või <code>&lt;span&gt;</code>)</li>
+            <li><b>&lt;input type="button"&gt;</b> – lihtne nupp, ainult tekst</li>
+            <li><b>type="submit"</b> – saadab vormi</li>
+            <li><b>type="button"</b> – tavaline nupp, mis ei saada vormi</li>
+        </ul>
+        <p>Proovi erinevaid nuppe ja lisa neile erinevaid tegevusi!</p>
+    </main>
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6.5 – HTML5 uued võimalused</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <main>
+        <a href="../../index.html" class="back-btn">← Tagasi avalehele</a>
+        <h2>6.5 – HTML5 uued võimalused</h2>
+        <p>HTML5 tõi kaasa palju uusi võimalusi: video ja audio tugi, semantilised elemendid, vormide täiustused, kohalik salvestus (localStorage), joonistamine <code>&lt;canvas&gt;</code> abil ja palju muud.</p>
+        <div class="example-container">
+            <div class="example-code">
+<pre><code>&lt;video controls&gt;
+  &lt;source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+&lt;canvas id="joonis" width="100" height="50" style="border:1px solid #ccc;"&gt;&lt;/canvas&gt;
+&lt;script&gt;
+  var c = document.getElementById('joonis').getContext('2d');
+  c.fillStyle = '#2563eb';
+  c.fillRect(10,10,80,30);
+&lt;/script&gt;</code></pre>
+            </div>
+            <div class="example-preview">
+                <video controls width="180">
+                  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+                <canvas id="joonis" width="100" height="50" style="border:1px solid #ccc;"></canvas>
+                <script>
+                  var c = document.getElementById('joonis').getContext('2d');
+                  c.fillStyle = '#2563eb';
+                  c.fillRect(10,10,80,30);
+                </script>
+            </div>
+        </div>
+        <ul>
+            <li><b>&lt;video&gt;, &lt;audio&gt;</b> – multimeedia tugi</li>
+            <li><b>&lt;canvas&gt;</b> – joonistamine ja graafika</li>
+            <li><b>localStorage</b> – andmete salvestamine brauseris</li>
+            <li><b>semantilised elemendid</b> – parem struktuur ja SEO</li>
+        </ul>
+        <p>HTML5 muudab veebilehed võimsamaks ja interaktiivsemaks. Uuri uusi võimalusi ja kasuta neid oma projektides!</p>
+    </main>
+</body>
+</html>

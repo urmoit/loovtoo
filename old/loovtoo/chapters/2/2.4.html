@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.4 – CSS-i kasutamine</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <main>
+        <a href="../../index.html" class="back-btn">← Tagasi avalehele</a>
+        <h2>2.4 – CSS-i kasutamine</h2>
+        <p>CSS (Cascading Style Sheets) võimaldab kujundada HTML-elemente. CSS-i saab lisada otse HTML-i sisse <code>style</code> atribuudi või <code>&lt;style&gt;</code> sildi abil, aga ka eraldi failina. CSS muudab lehe värve, fonte, paigutust ja palju muud.</p>
+        <div class="example-container">
+            <div class="example-code">
+<pre><code>&lt;style&gt;
+h1 {
+  color: #2563eb;
+  text-align: center;
+}
+p {
+  font-size: 1.2em;
+}
+&lt;/style&gt;
+&lt;h1&gt;Pealkiri&lt;/h1&gt;
+&lt;p&gt;See lõik on suurem ja pealkiri sinine.&lt;/p&gt;</code></pre>
+            </div>
+            <div class="example-preview">
+                <style>
+                h1 { color: #2563eb; text-align: center; }
+                p { font-size: 1.2em; }
+                </style>
+                <h1>Pealkiri</h1>
+                <p>See lõik on suurem ja pealkiri sinine.</p>
+            </div>
+        </div>
+        <ul>
+            <li><b>style</b> – otselemendi stiil</li>
+            <li><b>&lt;style&gt;</b> – lehe päisesse lisatav CSS</li>
+            <li><b>Väline CSS</b> – eraldi failina, mida lingitakse <code>&lt;link&gt;</code> sildiga</li>
+        </ul>
+        <p>CSS-i õppimine võimaldab sul luua ilusaid ja professionaalseid veebilehti. Proovi muuta värve, fonte ja paigutust!</p>
+    </main>
+</body>
+</html>
+

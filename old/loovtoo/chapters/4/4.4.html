@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.4 – Vormide valideerimine</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <main>
+        <a href="../../index.html" class="back-btn">← Tagasi avalehele</a>
+        <h2>4.4 – Vormide valideerimine</h2>
+        <p>Vormide valideerimine tähendab, et kontrollitakse, kas kasutaja on sisestanud õiged andmed. HTML5 võimaldab lisada sisenditele atribuute nagu <code>required</code>, <code>minlength</code>, <code>maxlength</code>, <code>type</code> jne, mis aitavad andmeid kontrollida juba enne vormi saatmist.</p>
+        <div class="example-container">
+            <div class="example-code">
+<pre><code>&lt;form&gt;
+  E-post: &lt;input type="email" required&gt;&lt;br&gt;
+  Parool: &lt;input type="password" minlength="6" required&gt;&lt;br&gt;
+  &lt;button type="submit"&gt;Registreeru&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            </div>
+            <div class="example-preview">
+                <form onsubmit="return false;">
+                  E-post: <input type="email" required><br>
+                  Parool: <input type="password" minlength="6" required><br>
+                  <button type="submit">Registreeru</button>
+                </form>
+            </div>
+        </div>
+        <ul>
+            <li><b>required</b> – väli peab olema täidetud</li>
+            <li><b>minlength</b> – minimaalne tähemärkide arv</li>
+            <li><b>type</b> – kontrollib sisendi tüüpi (nt e-post, number)</li>
+        </ul>
+        <p>HTML5 valideerimine muudab vormid turvalisemaks ja kasutajasõbralikumaks. Proovi lisada erinevaid valideerimisreegleid!</p>
+    </main>
+</body>
+</html>
+

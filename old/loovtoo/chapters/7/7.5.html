@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7.5 – Näidisfail allalaadimiseks</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+    .big-download-btn {
+        background: linear-gradient(90deg, #2563eb 60%, #1e40af 100%);
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        padding: 18px 38px;
+        margin: 28px 0 32px 0;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+        transition: background 0.2s, transform 0.2s;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+    .big-download-btn:hover {
+        background: linear-gradient(90deg, #1e40af 60%, #2563eb 100%);
+        transform: scale(1.04);
+    }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="../../index.html" class="back-btn">← Tagasi avalehele</a>
+        <h2>7.5 – Näidisfail allalaadimiseks</h2>
+        <p>Laadi alla näidis-HTML-fail, mis sisaldab kõiki kursusel õpitud põhielemente. Vaata koodi, proovi seda muuta ja ava fail oma brauseris!</p>
+        <a class="big-download-btn" href="naidis.html" download>⬇ Laadi alla näidisfail</a>
+        <h3>Näidisfaili kood</h3>
+        <div class="example-container">
+            <div class="example-code" style="max-width:600px;">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="et"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Näidis HTML-leht&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #2563eb; }
+    table { border-collapse: collapse; margin: 10px 0; }
+    th, td { border: 1px solid #ccc; padding: 4px 8px; }
+    .important { color: #e63946; font-weight: bold; }
+    #highlight { background: yellow; }
+    .btn { background: #2563eb; color: #fff; border: none; padding: 6px 14px; border-radius: 5px; cursor: pointer; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  ... (vaata eelvaadet allpool) ...
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+            <div class="example-preview" style="max-width:600px;">
+                <header>
+                  <h1>Näidis HTML-leht</h1>
+                  <nav>
+                    <a href="#info">Info</a> | <a href="#tabel">Tabel</a> | <a href="#vorm">Vorm</a>
+                  </nav>
+                </header>
+                <main>
+                  <section id="info">
+                    <h2>Pealkiri ja lõik</h2>
+                    <p class="important">See on tähtis lõik.</p>
+                    <p id="highlight">See tekst on esiletõstetud.</p>
+                    <ul>
+                      <li>Õun</li>
+                      <li>Banaan</li>
+                      <li>Pirn</li>
+                    </ul>
+                    <ol>
+                      <li>Esimene samm</li>
+                      <li>Teine samm</li>
+                    </ol>
+                    <img src="https://via.placeholder.com/120" alt="Näidispilt">
+                    <a href="https://www.wikipedia.org" target="_blank">Mine Wikipediasse</a>
+                    <div style="background:#e3eaf5;padding:10px;margin:10px 0;">See on div sees <span style="color:#2563eb;">See on span sees</span></div>
+                  </section>
+                  <section id="tabel">
+                    <h2>Tabel</h2>
+                    <table>
+                      <tr><th>Nimi</th><th>Vanus</th></tr>
+                      <tr><td>Mari</td><td>15</td></tr>
+                      <tr><td>Jüri</td><td>16</td></tr>
+                    </table>
+                  </section>
+                  <section id="vorm">
+                    <h2>Vorm</h2>
+                    <form>
+                      Nimi: <input type="text" name="nimi"><br>
+                      E-post: <input type="email" name="email"><br>
+                      <button type="submit" class="btn">Saada</button>
+                    </form>
+                    <button type="button" class="btn" onclick="alert('Tere!')">Tervita</button>
+                  </section>
+                  <section>
+                    <h2>Iframe</h2>
+                    <iframe src="https://www.wikipedia.org" width="200" height="60" title="Iframe näide"></iframe>
+                  </section>
+                  <section>
+                    <h2>Video ja audio</h2>
+                    <video width="180" controls>
+                      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    </video>
+                    <audio controls>
+                      <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+                    </audio>
+                  </section>
+                </main>
+                <footer>
+                  <small>Näidisfail</small>
+                </footer>
+            </div>
+        </div>
+        <p>Laadi fail alla, ava see brauseris ja katseta muudatusi!</p>
+    </main>
+</body>
+</html>
