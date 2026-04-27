@@ -231,13 +231,13 @@ main.wrap {
 	font-weight: 700;
 	font-size: 1.1rem;
 	color: var(--blue);
-	background: #e8edf7;
+	background: transparent;
 	transition: background 0.2s, color 0.2s;
 }
 
 .open-link:hover {
-	background: var(--blue);
-	color: #fff;
+	background: rgba(30, 95, 168, 0.08);
+	color: var(--blue);
 }
 
 .open-link small {
