@@ -223,14 +223,26 @@ main.wrap {
 
 .open-link {
 	display: inline-flex;
-	justify-content: center;
 	align-items: center;
-	padding: 10px 12px;
-	border-radius: 10px;
+	gap: 4px;
+	padding: 6px 12px;
+	border-radius: 8px;
 	text-decoration: none;
-	font-weight: 800;
+	font-weight: 700;
+	font-size: 1.1rem;
+	color: var(--blue);
+	background: #e8edf7;
+	transition: background 0.2s, color 0.2s;
+}
+
+.open-link:hover {
+	background: var(--blue);
 	color: #fff;
-	background: linear-gradient(130deg, var(--blue), var(--aqua));
+}
+
+.open-link small {
+	font-size: 0.75rem;
+	font-weight: 500;
 }
 
 .site-foot {
