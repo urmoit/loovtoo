@@ -1,41 +1,99 @@
 <!DOCTYPE html>
-<html lang="et">
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Loovtoo HTML kursus</title>
-	<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chosentechies</title>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body class="home-page">
-	<header class="topbar">
-		<div class="wrap topbar-inner">
-			<a class="brand" href="index.html">Loovtoo</a>
-			<div class="global-progress" aria-live="polite">
-				<span id="globalOpened">0</span>/<span id="globalTotal">0</span> tundi läbitud
-				<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="globalMeter">
-					<div class="meter-fill" id="globalFill"></div>
-				</div>
-			</div>
+<body>
+	<header>
+		<div class="header-inner">
+			<a class="logo" href="index.html">Chosen<span>techies</span></a>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="projects.html">Projects</a></li>
+					<li><a href="shader-forge.html">ShaderForge</a></li>
+					<li><a href="#contact" class="cta">Contact</a></li>
+				</ul>
+			</nav>
 		</div>
 	</header>
 
-	<section class="hero-home">
-		<div class="wrap hero-home-inner">
-			<p class="kicker">HTML kursus</p>
-			<h1>Õpi HTML-i samm-sammult</h1>
-			<p>
-				Vali peatükk, ava selle tunnid nuppudest ja jälgi oma edenemist.
-			</p>
-		</div>
-	</section>
+	<main>
+		<section class="hero">
+			<h1>Tools for <em>creators</em></h1>
+			<p>Secure, fast, and easy-to-use tools for Roblox, Minecraft, and beyond.</p>
+			<div class="hero-cta">
+				<a class="btn btn-primary" href="projects.html">View projects</a>
+				<a class="btn btn-secondary" href="shader-forge.html">Open ShaderForge</a>
+			</div>
+		</section>
 
-	<main class="wrap">
-		<section class="panel stats-row" id="statsRow"></section>
-		<section class="chapter-cards" id="chapterCards"></section>
+		<section class="container" id="cyvhub">
+			<div class="section-head">
+				<h2>CYVHUB</h2>
+				<p>All popular Roblox scripts in one clean interface.</p>
+			</div>
+			<div class="card">
+				<p>Fast loading, built-in support, and regular updates for the latest game versions. Simple to use for all skill levels.</p>
+				<a class="btn btn-secondary" href="projects.html" style="margin-top:12px;">More info</a>
+			</div>
+		</section>
+
+		<section class="container" id="cyvcore">
+			<div class="section-head">
+				<h2>CYVCORE</h2>
+				<p>Internal and external Roblox executor options.</p>
+			</div>
+			<div class="card">
+				<p>Built for maximum performance, stability, and safety. Works across different setups and game versions.</p>
+				<a class="btn btn-secondary" href="projects.html" style="margin-top:12px;">More info</a>
+			</div>
+		</section>
+
+		<section class="container" id="about">
+			<div class="section-head">
+				<h2>About</h2>
+				<p>Simple tools, real results.</p>
+			</div>
+			<div class="features">
+				<div class="feature">
+					<h3>Up to date</h3>
+					<p>Projects are maintained and updated for current game versions.</p>
+				</div>
+				<div class="feature">
+					<h3>Easy to use</h3>
+					<p>Clean interfaces and guided workflows for all skill levels.</p>
+				</div>
+				<div class="feature">
+					<h3>Support</h3>
+					<p>Help available when you need setup or usage guidance.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container" id="contact">
+			<div class="section-head">
+				<h2>Contact</h2>
+				<p>Questions or ready to reach out? We’re here to help.</p>
+			</div>
+			<div class="grid grid-2">
+				<div class="card">
+					<h3>Discord</h3>
+					<p>dgcyv</p>
+				</div>
+				<div class="card">
+					<h3>Phone</h3>
+					<p>+372 558 3887</p>
+				</div>
+			</div>
+		</section>
 	</main>
 
-	<footer class="site-foot">
-		<p>loovtoo tehtud Urmo Tankler ja Caius Lemmats</p>
+	<footer>
+		<p>© <span id="year"></span> Chosentechies</p>
 	</footer>
 
 	<script src="javascript.js"></script>
