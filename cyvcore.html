@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYVCORE – Chosentechies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--card:#141414;--border:#222;--text:#e8e8e8;--muted:#666;--accent:#c8102e;--shadow:0 8px 24px rgba(0,0,0,.6);--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+
+header{position:sticky;top:0;z-index:50;background:rgba(13,13,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+.logo span{color:var(--accent)}
+nav ul{display:flex;list-style:none;gap:2px}
+nav a{padding:6px 13px;border-radius:7px;font-size:.82rem;font-weight:600;color:var(--muted);transition:color .15s,background .15s;text-transform:uppercase;letter-spacing:.04em}
+nav a:hover,nav a.active{color:var(--text);background:rgba(255,255,255,.06)}
+
+main{flex:1}
+.container{max-width:1100px;margin:0 auto;padding:56px 24px}
+
+.hero{padding:80px 24px 64px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-eyebrow{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(200,16,46,.3);border-radius:4px;padding:4px 12px;margin-bottom:20px}
+.hero h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;line-height:1.08;margin-bottom:14px;letter-spacing:-.01em}
+.hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 32px}
+.hero-actions{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-weight:700;font-size:.85rem;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.04em}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#a50d26;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,.05);border-color:#444}
+.btn-discord{background:#5865F2;color:#fff}
+.btn-discord:hover{background:#4752c4;transform:translateY(-1px)}
+.btn-roblox{background:#1a1a1a;color:var(--text);border:1px solid var(--border)}
+.btn-roblox:hover{background:#252525;border-color:#444}
+.btn-sm{padding:7px 14px;font-size:.75rem}
+
+.sec-label{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.sec-title{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.sec-sub{color:var(--muted);font-size:.9rem;margin-bottom:24px}
+
+/* STATUS BANNER */
+.status-banner{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:40px;display:flex;gap:28px;flex-wrap:wrap}
+.status-item{display:flex;align-items:center;gap:8px;font-size:.83rem}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-green{background:#3dba6e}
+.dot-red{background:var(--accent)}
+.dot-yellow{background:#d4a017}
+.s-label{color:var(--muted)}
+.s-val{font-weight:700}
+
+/* VERSION CARDS — clickable */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:48px}
+.mode-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;transition:border-color .18s,transform .18s;
+}
+.mode-card.available{cursor:pointer}
+.mode-card.available:hover{border-color:#444;transform:translateY(-2px)}
+.mode-card.available:hover .mode-title{color:var(--accent)}
+.mode-card.unavailable{opacity:.55;cursor:default}
+.mode-card-body{padding:24px 26px}
+.mode-badge{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:4px;margin-bottom:12px}
+.badge-live{background:rgba(61,186,110,.1);color:#3dba6e;border:1px solid rgba(61,186,110,.22)}
+.badge-soon{background:rgba(255,255,255,.04);color:#444;border:1px solid #2a2a2a}
+.mode-title{font-size:1.1rem;font-weight:900;margin-bottom:8px;transition:color .15s}
+.mode-card p{color:var(--muted);font-size:.86rem;margin-bottom:16px}
+.mode-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.mode-card ul li{font-size:.83rem;color:var(--muted);padding-left:15px;position:relative}
+.mode-card ul li::before{content:'–';position:absolute;left:0;color:#333}
+.mode-card.available ul li{color:var(--text)}
+.mode-card.available ul li::before{color:var(--accent)}
+.mode-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid var(--border);background:rgba(255,255,255,.012)}
+.mode-footer-hint{font-size:.68rem;color:#444;text-transform:uppercase;letter-spacing:.06em}
+.mode-arrow{font-size:.75rem;color:#444}
+
+/* FEATURES */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px}
+.feat-icon{font-size:1.1rem;margin-bottom:8px}
+.feat-card h4{font-size:.88rem;font-weight:800;margin-bottom:4px}
+.feat-card p{color:var(--muted);font-size:.81rem}
+
+/* SPECS */
+.specs{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:56px}
+.spec-row{display:grid;grid-template-columns:190px 1fr;border-bottom:1px solid var(--border)}
+.spec-row:last-child{border-bottom:none}
+.spec-key{padding:13px 20px;font-size:.82rem;font-weight:700;color:var(--muted);background:rgba(255,255,255,.015)}
+.spec-val{padding:13px 20px;font-size:.84rem;color:var(--text)}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:#111;border:1px solid #2a2a2a;border-radius:16px;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;transform:translateY(12px);transition:transform .22s;overflow:hidden}
+.overlay.open .modal{transform:translateY(0)}
+.modal-cover-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);flex-shrink:0;font-family:monospace;letter-spacing:.05em;color:#c8102e;font-size:1.6rem;font-weight:900}
+.modal-head{padding:16px 22px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title-row{display:flex;align-items:center;gap:10px}
+.modal-title{font-size:1.05rem;font-weight:900}
+.modal-close{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .15s}
+.modal-close:hover{background:rgba(255,255,255,.12);color:var(--text)}
+.modal-actions{display:flex;gap:8px;padding:12px 22px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.modal-scroll{flex:1;overflow-y:auto;padding:18px 22px;scrollbar-width:thin;scrollbar-color:#2a2a2a transparent}
+.modal-scroll::-webkit-scrollbar{width:4px}
+.modal-scroll::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:2px}
+.modal-cl-title{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:12px}
+
+.mcl-entry{border:1px solid #1e1e1e;border-radius:10px;overflow:hidden;margin-bottom:8px}
+.mcl-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;background:#0f0f0f}
+.mcl-header:hover{background:#141414}
+.mcl-version{font-size:.8rem;font-weight:800}
+.mcl-date{font-size:.72rem;color:var(--muted);margin-left:auto}
+.mcl-badge{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:4px}
+.badge-latest{background:rgba(61,186,110,.1);color:#3dba6e;border:1px solid rgba(61,186,110,.2)}
+.badge-past{background:rgba(255,255,255,.03);color:#444;border:1px solid #1e1e1e}
+.badge-unknown{background:rgba(200,16,46,.06);color:#a00;border:1px solid rgba(200,16,46,.15)}
+.mcl-arrow{color:#444;font-size:.68rem;transition:transform .18s;flex-shrink:0}
+.mcl-entry.open .mcl-arrow{transform:rotate(90deg)}
+.mcl-body{display:none;padding:4px 16px 12px;border-top:1px solid #1a1a1a;background:#0a0a0a}
+.mcl-entry.open .mcl-body{display:block}
+.mcl-section{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:10px 0 4px}
+.mcl-item{display:flex;align-items:flex-start;gap:7px;padding:3px 0;font-size:.79rem;color:#777;border-bottom:1px solid #111}
+.mcl-item:last-child{border-bottom:none}
+.mcl-sym{font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:2px}
+.sym-add{color:#3dba6e}
+.sym-change{color:#d4a017}
+.sym-fix{color:#888}
+.mcl-note{font-size:.72rem;color:#444;margin-left:2px}
+
+footer{background:#080808;border-top:1px solid var(--border);padding:16px 24px;text-align:center;color:var(--muted);font-size:.8rem}
+
+@media(max-width:760px){
+  .split,.feats{grid-template-columns:1fr}
+  .spec-row{grid-template-columns:1fr}
+  .spec-key{border-bottom:1px solid var(--border);padding:9px 16px}
+  nav ul{flex-wrap:wrap;gap:2px}
+  nav a{padding:5px 9px;font-size:.76rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html">Chosen<span>techies</span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="cyvcore.html" class="active">CYVCORE</a></li>
+        <li><a href="cyvhub.html">CYVHUB</a></li>
+        <li><a href="shader-forge.html">ShaderForge</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-eyebrow">Roblox · External Tool</div>
+    <h1>CYVCORE</h1>
+    <p>External Roblox tool with ESP, aimbot, and more. No injection — runs fully outside the game client. Download available in our Discord.</p>
+    <div class="hero-actions">
+      <a class="btn btn-discord" href="https://discord.gg/ZmPhEuhE" target="_blank">Join Discord</a>
+      <a class="btn btn-ghost" href="projects.html">All projects</a>
+    </div>
+  </section>
+
+  <section class="container">
+
+    <!-- Status -->
+    <div class="status-banner">
+      <div class="status-item"><span class="dot dot-green"></span><span class="s-label">External</span><span class="s-val">Live — v1.0.4</span></div>
+      <div class="status-item"><span class="dot dot-red"></span><span class="s-label">Internal</span><span class="s-val">Not released yet</span></div>
+      <div class="status-item"><span class="dot dot-yellow"></span><span class="s-label">Last update</span><span class="s-val">June 20, 2026</span></div>
+    </div>
+
+    <!-- Versions -->
+    <div class="sec-label">Versions</div>
+    <div class="sec-title">External & Internal</div>
+    <div class="sec-sub">Click External to see its changelog. Internal is still in development.</div>
+    <div class="split">
+
+      <div class="mode-card available" onclick="openModal('external')">
+        <div class="mode-card-body">
+          <span class="mode-badge badge-live">● Live</span>
+          <div class="mode-title">External</div>
+          <p>Runs fully outside Roblox. No injection needed. ESP, aimbot, and more. Key system coming soon — will work the same as CYVHUB.</p>
+          <ul>
+            <li>ESP (players, items)</li>
+            <li>Aimbot</li>
+            <li>3 UI themes</li>
+            <li>No injection required</li>
+            <li>Updated regularly</li>
+            <li>Key system — coming soon</li>
+          </ul>
+        </div>
+        <div class="mode-footer">
+          <span class="mode-footer-hint">Click for changelog</span>
+          <span class="mode-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="mode-card unavailable">
+        <div class="mode-card-body">
+          <span class="mode-badge badge-soon">Coming soon</span>
+          <div class="mode-title">Internal</div>
+          <p>Injected mode for deeper access. Not yet released — in active development.</p>
+          <ul>
+            <li>In development</li>
+            <li>No ETA yet</li>
+            <li>Follow Discord for updates</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Features -->
+    <div class="sec-label">Features</div>
+    <div class="sec-title">What's in CYVCORE External</div>
+    <div class="sec-sub">Current feature set in the live release.</div>
+    <div class="feats">
+      <div class="feat-card">
+        <div class="feat-icon">👁</div>
+        <h4>ESP</h4>
+        <p>See players and items through walls. Customisable display with multiple themes.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎯</div>
+        <h4>Aimbot</h4>
+        <p>Auto-aim assist. Configurable targeting and smoothing settings.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎨</div>
+        <h4>3 UI Themes</h4>
+        <p>Switch between themes in Settings. Clean, minimal interface.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔄</div>
+        <h4>Actively updated</h4>
+        <p>Updated after Roblox patches to keep the tool working.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📥</div>
+        <h4>Free download</h4>
+        <p>Downloadable file posted in our Discord server. No third-party sites.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔑</div>
+        <h4>Key system — soon</h4>
+        <p>Key system not out yet. When it launches it will work the same as CYVHUB — free key via Discord.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📋</div>
+        <h4>Launch changelog</h4>
+        <p>See what changed on every launch so you're always up to date.</p>
+      </div>
+    </div>
+
+    <!-- Specs -->
+    <div class="sec-label">Specs</div>
+    <div class="sec-title">Technical details</div>
+    <div class="sec-sub" style="margin-bottom:14px">What's under the hood.</div>
+    <div class="specs">
+      <div class="spec-row"><div class="spec-key">Platform</div><div class="spec-val">Windows (PC)</div></div>
+      <div class="spec-row"><div class="spec-key">Type</div><div class="spec-val">External (no injection)</div></div>
+      <div class="spec-row"><div class="spec-key">Current version</div><div class="spec-val">1.0.4</div></div>
+      <div class="spec-row"><div class="spec-key">Roblox version</div><div class="spec-val">version-8884371d30284041</div></div>
+      <div class="spec-row"><div class="spec-key">Download</div><div class="spec-val">Downloadable file in our Discord server</div></div>
+      <div class="spec-row"><div class="spec-key">Access</div><div class="spec-val">Currently open — key system coming soon (same as CYVHUB)</div></div>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  <p>© <span id="year"></span> Chosentechies · CYVCORE</p>
+</footer>
+
+<!-- ── MODAL: External changelog ── -->
+<div class="overlay" id="modal-external" onclick="closeOnBg(event,'external')">
+  <div class="modal">
+    <div class="modal-cover-placeholder">CYVCORE</div>
+    <div class="modal-head">
+      <div class="modal-title-row">
+        <span class="modal-title">CYVCORE External</span>
+        <span class="mode-badge badge-live" style="margin-bottom:0">● Live</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('external')">✕</button>
+    </div>
+    <div class="modal-actions">
+      <a class="btn btn-discord btn-sm" href="https://discord.gg/ZmPhEuhE" target="_blank">Discord — download &amp; key coming soon</a>
+    </div>
+    <div class="modal-scroll">
+      <div class="modal-cl-title">Release history</div>
+
+      <div class="mcl-entry open">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">Release 1.0.4</span>
+          <span class="mcl-badge badge-latest">Latest</span>
+          <span class="mcl-date">June 20, 2026</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Updated for version-8884371d30284041</span></div>
+        </div>
+      </div>
+
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">Release 1.0.3</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">June 7, 2026</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Updated for version-ad5d3e2906444472</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Animated menu fade-in and changelog entrance</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Pulsing CYVCORE Red accents on tabs, footer, and borders</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Smoother icon-tab hover feedback while keeping the same layout</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Refined changelog sizing, spacing, and release copy</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Subtle animated section dividers for modern pages</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Changelog popup on launch</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Roblox player headshot in footer</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Logo-matched CYVCORE Red theme</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Icon tabs on title bar with dynamic page name</span></div>
+        </div>
+      </div>
+
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">Release 1.0.2</span>
+          <span class="mcl-badge badge-unknown">No info</span>
+          <span class="mcl-date">Unknown</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>No changelog recorded for this release.</span></div>
+        </div>
+      </div>
+
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">Release 1.0.1</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">May 31, 2026</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Settings added with 3 themes</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>UI fully redesigned</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed ESP</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function openModal(id) {
+  document.getElementById('modal-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById('modal-' + id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnBg(e, id) {
+  if (e.target === e.currentTarget) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.overlay.open').forEach(el => {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+function toggleMcl(header) {
+  header.closest('.mcl-entry').classList.toggle('open');
+}
+</script>
+</body>
+</html>

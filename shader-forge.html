@@ -5,431 +5,366 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShaderForge – Chosentechies</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  .layout {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 0;
-    min-height: calc(100vh - 64px - 52px);
-  }
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { position: static; border-left: none; border-top: 1px solid #1f2633; }
-  }
-  .main { padding: 36px 40px; background: #0b0f15; }
-  @media (max-width: 600px) { .main { padding: 24px 16px; } }
-  .section { margin-bottom: 36px; }
-  .section-head {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-  }
-  .section-icon {
-    width: 28px; height: 28px;
-    background: rgba(0,255,135,0.08);
-    border: 1px solid rgba(0,255,135,0.15);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-  }
-  .section-title {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.08em; color: #63b3ed;
-  }
-  .chips {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 8px;
-  }
-  .chip {
-    background: #161c26; border: 1px solid #1f2633; border-radius: 8px;
-    padding: 11px 14px; cursor: pointer;
-    transition: all 0.15s;
-    display: flex; align-items: flex-start; gap: 10px;
-    user-select: none;
-  }
-  .chip:hover { background: #1f2633; border-color: #2a3444; }
-  .chip.active {
-    background: rgba(0,255,135,0.05);
-    border-color: rgba(0,255,135,0.4);
-  }
-  .chip-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    border: 1.5px solid #2a3444; flex-shrink: 0; margin-top: 4px;
-  }
-  .chip.active .chip-dot { background: #4fd1c5; border-color: #4fd1c5; }
-  .chip-body { flex: 1; }
-  .chip-label { font-size: 13px; font-weight: 500; color: #e6eaf2; }
-  .chip-sub { font-size: 11px; color: #7c879a; margin-top: 2px; }
-  hr { border: none; border-top: 1px solid #1f2633; margin: 32px 0; }
-  .sliders { display: flex; flex-direction: column; gap: 16px; }
-  .slider-row {
-    display: grid; grid-template-columns: 140px 1fr 70px;
-    align-items: center; gap: 14px;
-  }
-  .slider-label { font-size: 13px; color: #8a93a3; }
-  input[type=range] {
-    -webkit-appearance: none; width: 100%; height: 4px;
-    background: #161c26; border-radius: 2px; border: 1px solid #1f2633;
-    outline: none; cursor: pointer;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 16px; height: 16px;
-    border-radius: 50%; background: #4fd1c5;
-    box-shadow: 0 0 10px rgba(79,209,197,0.5);
-  }
-  input[type=range]::-moz-range-thumb {
-    width: 16px; height: 16px; border-radius: 50%;
-    background: #4fd1c5; box-shadow: 0 0 10px rgba(79,209,197,0.5);
-    border: none;
-  }
-  .slider-val {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px;
-    color: #4fd1c5; text-align: right;
-  }
-  .compat-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;
-  }
-  .compat-chip {
-    background: #161c26; border: 1px solid #1f2633; border-radius: 8px;
-    padding: 10px; text-align: center; cursor: pointer;
-    transition: all 0.15s; user-select: none;
-  }
-  .compat-chip:hover { background: #1f2633; border-color: #2a3444; }
-  .compat-chip.active { background: rgba(99,179,237,0.06); border-color: rgba(99,179,237,0.35); }
-  .compat-name { font-size: 13px; font-weight: 500; color: #e6eaf2; }
-  .compat-ver { font-size: 11px; color: #7c879a; margin-top: 2px; }
-  .sidebar {
-    background: #11161f; border-left: 1px solid #1f2633;
-    position: sticky; top: 64px; height: calc(100vh - 64px);
-    display: flex; flex-direction: column;
-  }
-  .sidebar-head {
-    padding: 20px 24px 16px; border-bottom: 1px solid #1f2633; flex-shrink: 0;
-  }
-  .sidebar-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #8a93a3; margin-bottom: 8px; }
-  .stats-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .stat-pill {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    padding: 3px 8px; border-radius: 20px; border: 1px solid;
-  }
-  .stat-pill.green { color: #4fd1c5; border-color: rgba(79,209,197,0.3); background: rgba(79,209,197,0.06); }
-  .stat-pill.blue  { color: #63b3ed; border-color: rgba(99,179,237,0.3); background: rgba(99,179,237,0.06); }
-  .stat-pill.amber { color: #ecc94b; border-color: rgba(236,201,75,0.3); background: rgba(236,201,75,0.06); }
-  .prompt-scroll {
-    flex: 1; overflow-y: auto; padding: 20px 24px;
-    scrollbar-width: thin; scrollbar-color: #1f2633 transparent;
-  }
-  .prompt-scroll::-webkit-scrollbar { width: 4px; }
-  .prompt-scroll::-webkit-scrollbar-thumb { background: #1f2633; border-radius: 2px; }
-  .prompt-text {
-    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
-    line-height: 1.8; color: #8a93a3; white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .prompt-text .ph { color: #4fd1c5; font-weight: 500; }
-  .prompt-text .pv { color: #9ae6b4; }
-  .prompt-text .pc { color: #5a6a7a; }
-  .sidebar-actions {
-    padding: 16px 24px; border-top: 1px solid #1f2633;
-    display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
-  }
-  footer {
-    background: #080b10; border-top: 1px solid #1f2633;
-    color: #7c879a; font-size: 0.85rem;
-  }
-  .copied-toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #4fd1c5;
-    color: #0b0f15;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 10px 24px;
-    border-radius: 10px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 1000;
-    white-space: nowrap;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-  }
-  .copied-toast.show {
-    opacity: 1;
-  }
+:root{--bg:#090c12;--surface:#0f1420;--card:#121824;--border:#1c2333;--text:#dde3f0;--muted:#6b7892;--accent:#4fd1c5;--accent2:#63b3ed;--grad:linear-gradient(135deg,#4fd1c5,#63b3ed);--shadow:0 16px 40px rgba(0,0,0,.55);--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+header{position:sticky;top:0;z-index:50;background:rgba(13,13,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+.logo span{color:#c8102e}
+nav ul{display:flex;list-style:none;gap:4px}
+nav a{padding:7px 14px;border-radius:9px;font-size:.875rem;font-weight:600;color:var(--muted);transition:color .15s,background .15s}
+nav a:hover,nav a.active{color:var(--text);background:rgba(255,255,255,.06)}
+
+/* LAYOUT */
+main{flex:1;display:flex;flex-direction:column}
+.tool-layout{flex:1;display:grid;grid-template-columns:1fr 360px;min-height:0}
+
+/* LEFT PANEL */
+.tool-main{padding:32px 36px;overflow-y:auto;background:var(--bg)}
+@media(max-width:600px){.tool-main{padding:20px 14px}}
+
+.section{margin-bottom:32px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-icon{width:28px;height:28px;background:rgba(79,209,197,.08);border:1px solid rgba(79,209,197,.15);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.sec-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent2)}
+hr{border:none;border-top:1px solid var(--border);margin:28px 0}
+
+/* CHIPS */
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:10px;user-select:none}
+.chip:hover{background:#161e2c;border-color:#263040}
+.chip.active{background:rgba(79,209,197,.05);border-color:rgba(79,209,197,.38)}
+.chip-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid #2a3444;flex-shrink:0;margin-top:5px;transition:all .15s}
+.chip.active .chip-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 6px rgba(79,209,197,.4)}
+.chip-body{flex:1}
+.chip-label{font-size:.85rem;font-weight:600;color:var(--text)}
+.chip-sub{font-size:.72rem;color:var(--muted);margin-top:2px}
+
+/* SLIDERS */
+.sliders{display:flex;flex-direction:column;gap:14px}
+.slider-row{display:grid;grid-template-columns:150px 1fr 68px;align-items:center;gap:14px}
+.slider-label{font-size:.85rem;color:var(--muted)}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--card);border-radius:2px;border:1px solid var(--border);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(79,209,197,.45)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(79,209,197,.45);border:none}
+.slider-val{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--accent);text-align:right}
+
+/* COMPAT CHIPS */
+.compat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.compat-chip{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:11px;text-align:center;cursor:pointer;transition:all .15s;user-select:none}
+.compat-chip:hover{background:#161e2c;border-color:#263040}
+.compat-chip.active{background:rgba(99,179,237,.06);border-color:rgba(99,179,237,.35)}
+.compat-name{font-size:.85rem;font-weight:600;color:var(--text)}
+.compat-ver{font-size:.72rem;color:var(--muted);margin-top:2px}
+
+/* SIDEBAR */
+.sidebar{background:var(--surface);border-left:1px solid var(--border);position:sticky;top:62px;height:calc(100vh - 62px);display:flex;flex-direction:column}
+.sidebar-head{padding:18px 22px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sidebar-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px}
+.stats-row{display:flex;gap:6px;flex-wrap:wrap}
+.stat-pill{font-family:'JetBrains Mono',monospace;font-size:.7rem;padding:3px 9px;border-radius:20px;border:1px solid}
+.pill-green{color:var(--accent);border-color:rgba(79,209,197,.3);background:rgba(79,209,197,.06)}
+.pill-blue{color:var(--accent2);border-color:rgba(99,179,237,.3);background:rgba(99,179,237,.06)}
+.pill-amber{color:#ecc94b;border-color:rgba(236,201,75,.3);background:rgba(236,201,75,.06)}
+.prompt-scroll{flex:1;overflow-y:auto;padding:18px 22px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.prompt-scroll::-webkit-scrollbar{width:4px}
+.prompt-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.prompt-text{font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.85;color:var(--muted);white-space:pre-wrap;word-break:break-word}
+.prompt-text .ph{color:var(--accent);font-weight:600}
+.prompt-text .pv{color:#9ae6b4}
+.prompt-text .pc{color:#3d4f62}
+.sidebar-actions{padding:14px 22px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.875rem;border:none;cursor:pointer;transition:all .2s;width:100%;justify-content:center}
+.btn-primary{background:var(--grad);color:#090c12;box-shadow:0 6px 18px rgba(79,209,197,.2)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--accent);color:#090c12;font-size:.8rem;font-weight:700;padding:10px 22px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{opacity:1}
+
+/* FOOTER */
+footer{background:#060810;border-top:1px solid var(--border);padding:14px 24px;text-align:center;color:var(--muted);font-size:.82rem}
+
+@media(max-width:900px){
+  .tool-layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-left:none;border-top:1px solid var(--border)}
+  nav ul{flex-wrap:wrap;gap:2px}
+  nav a{padding:6px 10px;font-size:.8rem}
+}
 </style>
 </head>
 <body>
-	<header>
-		<div class="header-inner">
-			<a class="logo" href="index.html">Chosen<span>techies</span></a>
-			<nav>
-				<ul>
-					<li><a href="index.html">Home</a></li>
-					<li><a href="projects.html">Projects</a></li>
-					<li><a href="shader-forge.html" class="active">ShaderForge</a></li>
-					<li><a href="index.html#contact" class="cta">Contact</a></li>
-				</ul>
-			</nav>
-		</div>
-	</header>
 
-	<main>
-		<div class="layout">
-			<section class="main">
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">🎨</div>
-						<span class="section-title">Visual style</span>
-					</div>
-					<div class="chips">
-						<div class="chip active" data-group="style" data-val="ultra-realistic photorealistic PBR rendering">
-							<div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ultra-realistic</div><div class="chip-sub">Full PBR, physically based</div></div>
-						</div>
-						<div class="chip" data-group="style" data-val="cinematic film-quality color grading">
-							<div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Cinematic</div><div class="chip-sub">Film LUTs, grade</div></div>
-						</div>
-						<div class="chip" data-group="style" data-val="fantasy stylized vibrant saturated">
-							<div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Fantasy stylized</div><div class="chip-sub">Vibrant, saturated</div></div>
-						</div>
-						<div class="chip" data-group="style" data-val="dark atmospheric moody horror">
-							<div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Dark & moody</div><div class="chip-sub">Low key, atmospheric</div></div>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">☀️</div>
-						<span class="section-title">Lighting</span>
-					</div>
-					<div class="chips">
-						<div class="chip active" data-group="lighting" data-val="global illumination (GI) with multi-bounce light transport"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Global illumination</div><div class="chip-sub">Multi-bounce GI</div></div></div>
-						<div class="chip active" data-group="lighting" data-val="ray-traced soft shadows with PCF penumbra"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ray-traced shadows</div><div class="chip-sub">PCF soft penumbra</div></div></div>
-						<div class="chip active" data-group="lighting" data-val="volumetric god rays and light shafts"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Volumetric god rays</div><div class="chip-sub">Atmospheric light shafts</div></div></div>
-						<div class="chip" data-group="lighting" data-val="SSAO and HBAO ambient occlusion"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ambient occlusion</div><div class="chip-sub">SSAO / HBAO</div></div></div>
-						<div class="chip active" data-group="lighting" data-val="dynamic day-night cycle with color-accurate sun/moon"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Day/night cycle</div><div class="chip-sub">Color-accurate sky</div></div></div>
-						<div class="chip" data-group="lighting" data-val="emissive block glow propagation with colored lighting"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Emissive glow</div><div class="chip-sub">Colored block light</div></div></div>
-						<div class="chip" data-group="lighting" data-val="sub-surface scattering on foliage and skin"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Sub-surface scatter</div><div class="chip-sub">Foliage, skin translucency</div></div></div>
-						<div class="chip" data-group="lighting" data-val="area lights and soft shadow maps for torches and fire"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Area lights</div><div class="chip-sub">Torch & fire glow</div></div></div>
-					</div>
-				</div>
-				<hr>
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">💧</div>
-						<span class="section-title">Reflections &amp; water</span>
-					</div>
-					<div class="chips">
-						<div class="chip active" data-group="reflect" data-val="screen-space reflections (SSR) with roughness blending"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">SSR reflections</div><div class="chip-sub">Roughness aware</div></div></div>
-						<div class="chip" data-group="reflect" data-val="ray-traced mirror reflections for glass and metal"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ray-traced reflections</div><div class="chip-sub">Glass & metal</div></div></div>
-						<div class="chip active" data-group="reflect" data-val="animated water surface with Gerstner wave physics and foam"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Animated water</div><div class="chip-sub">Gerstner waves + foam</div></div></div>
-						<div class="chip" data-group="reflect" data-val="underwater caustics, refraction and god rays"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Underwater caustics</div><div class="chip-sub">Refraction, rays</div></div></div>
-						<div class="chip" data-group="reflect" data-val="planar reflections for calm water and glass floors"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Planar reflections</div><div class="chip-sub">Calm water, glass</div></div></div>
-						<div class="chip" data-group="reflect" data-val="specular highlights and microfacet BRDF on wet surfaces"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Microfacet BRDF</div><div class="chip-sub">Wet surface specular</div></div></div>
-					</div>
-				</div>
-				<hr>
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">🌤</div>
-						<span class="section-title">Weather &amp; atmosphere</span>
-					</div>
-					<div class="chips">
-						<div class="chip active" data-group="weather" data-val="volumetric clouds with real-time weather simulation and lighting"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Volumetric clouds</div><div class="chip-sub">Real-time weather sim</div></div></div>
-						<div class="chip" data-group="weather" data-val="realistic rain with surface puddle accumulation and ripples"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Rain & puddles</div><div class="chip-sub">Accumulation, ripples</div></div></div>
-						<div class="chip" data-group="weather" data-val="snowfall with surface accumulation on blocks"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Snow accumulation</div><div class="chip-sub">Block-surface snow</div></div></div>
-						<div class="chip" data-group="weather" data-val="atmospheric volumetric fog and mist with height falloff"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Volumetric fog</div><div class="chip-sub">Height-based falloff</div></div></div>
-						<div class="chip" data-group="weather" data-val="aurora borealis procedural night sky with star rendering"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Aurora night sky</div><div class="chip-sub">Procedural stars</div></div></div>
-						<div class="chip" data-group="weather" data-val="lightning bolts with procedural branch geometry and flash lighting"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Lightning</div><div class="chip-sub">Branching geometry</div></div></div>
-						<div class="chip" data-group="weather" data-val="wind-driven foliage and grass animation with noise displacement"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Wind animation</div><div class="chip-sub">Foliage & grass sway</div></div></div>
-					</div>
-				</div>
-				<hr>
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">🎞</div>
-						<span class="section-title">Post-processing</span>
-					</div>
-					<div class="chips">
-						<div class="chip active" data-group="post" data-val="HDR tone mapping with ACES filmic curve"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">HDR tone mapping</div><div class="chip-sub">ACES filmic curve</div></div></div>
-						<div class="chip" data-group="post" data-val="depth of field (DoF) with hexagonal bokeh"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Depth of field</div><div class="chip-sub">Hexagonal bokeh</div></div></div>
-						<div class="chip" data-group="post" data-val="per-object motion blur with velocity buffer"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Motion blur</div><div class="chip-sub">Per-object velocity</div></div></div>
-						<div class="chip active" data-group="post" data-val="bloom with lens flare and star-burst filter"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Bloom & lens flare</div><div class="chip-sub">Star-burst filter</div></div></div>
-						<div class="chip" data-group="post" data-val="chromatic aberration on screen edges"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Chromatic aberration</div><div class="chip-sub">Edge fringing</div></div></div>
-						<div class="chip" data-group="post" data-val="cinematic vignette with exposure adjustment"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Vignette</div><div class="chip-sub">Cinematic crop</div></div></div>
-						<div class="chip" data-group="post" data-val="FXAA or TAA anti-aliasing for smooth edges"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Anti-aliasing</div><div class="chip-sub">FXAA / TAA</div></div></div>
-						<div class="chip" data-group="post" data-val="color grading with adjustable saturation, contrast and hue shift"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Color grading</div><div class="chip-sub">Sat / contrast / hue</div></div></div>
-					</div>
-				</div>
-				<hr>
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">⚡</div>
-						<span class="section-title">Performance target</span>
-					</div>
-					<div class="sliders">
-						<div class="slider-row">
-							<span class="slider-label">Target FPS</span>
-							<input type="range" min="30" max="144" step="30" value="60" id="fps-slider">
-							<span class="slider-val" id="fps-val">60 fps</span>
-						</div>
-						<div class="slider-row">
-							<span class="slider-label">Internal resolution</span>
-							<input type="range" min="50" max="200" step="25" value="100" id="res-slider">
-							<span class="slider-val" id="res-val">100%</span>
-						</div>
-						<div class="slider-row">
-							<span class="slider-label">Shadow map size</span>
-							<input type="range" min="0" max="3" step="1" value="2" id="shadow-slider">
-							<span class="slider-val" id="shadow-val">2048</span>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="section">
-					<div class="section-head">
-						<div class="section-icon">🔧</div>
-						<span class="section-title">Target loaders</span>
-					</div>
-					<div class="compat-grid">
-						<div class="compat-chip active" data-group="compat" data-val="OptiFine 1.20+"><div class="compat-name">OptiFine</div><div class="compat-ver">1.20+</div></div>
-						<div class="compat-chip active" data-group="compat" data-val="Iris Shaders 1.6+"><div class="compat-name">Iris Shaders</div><div class="compat-ver">1.6+</div></div>
-						<div class="compat-chip" data-group="compat" data-val="Sodium + Iris pipeline"><div class="compat-name">Sodium + Iris</div><div class="compat-ver">pipeline</div></div>
-						<div class="compat-chip" data-group="compat" data-val="Canvas Renderer 1.0+"><div class="compat-name">Canvas</div><div class="compat-ver">Renderer</div></div>
-					</div>
-				</div>
-			</section>
-			<aside class="sidebar">
-				<div class="sidebar-head">
-					<div class="sidebar-title">Live prompt</div>
-					<div class="stats-row">
-						<span class="stat-pill green" id="feat-stat">0 features</span>
-						<span class="stat-pill blue" id="fps-stat">60 fps</span>
-						<span class="stat-pill amber" id="compat-stat">0 loaders</span>
-					</div>
-				</div>
-				<div class="prompt-scroll">
-					<div class="prompt-text" id="prompt-out"></div>
-				</div>
-				<div class="sidebar-actions">
-					<button class="btn btn-primary" onclick="copyPrompt()">📋 Copy full prompt</button>
-					<button class="btn btn-secondary" onclick="resetAll()">↺ Reset to defaults</button>
-				</div>
-			</aside>
-		</div>
-	</main>
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html">Chosen<span>techies</span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="cyvcore.html">CYVCORE</a></li>
+        <li><a href="cyvhub.html">CYVHUB</a></li>
+        <li><a href="shader-forge.html" class="active">ShaderForge</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-	<footer>
-		<div class="header-inner" style="height:auto; padding: 10px 24px;">
-			<span>ShaderForge – Chosentechies</span>
-			<span style="color:#4fd1c5;">© <span id="year"></span></span>
-		</div>
-	</footer>
+<main>
+  <div class="tool-layout">
 
-	<div class="copied-toast" id="toast">✓ Prompt copied to clipboard</div>
+    <!-- LEFT: config panel -->
+    <section class="tool-main">
 
-	<script>
-  const SHADOW_SIZES = ['512','1024','2048','4096'];
-  document.getElementById('fps-slider').addEventListener('input', e => {
-    document.getElementById('fps-val').textContent = e.target.value + ' fps';
-    document.getElementById('fps-stat').textContent = e.target.value + ' fps';
-    buildPrompt();
-  });
-  document.getElementById('res-slider').addEventListener('input', e => {
-    document.getElementById('res-val').textContent = e.target.value + '%';
-    buildPrompt();
-  });
-  document.getElementById('shadow-slider').addEventListener('input', e => {
-    document.getElementById('shadow-val').textContent = SHADOW_SIZES[e.target.value];
-    buildPrompt();
-  });
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => { chip.classList.toggle('active'); buildPrompt(); });
-  });
-  document.querySelectorAll('.compat-chip').forEach(chip => {
-    chip.addEventListener('click', () => { chip.classList.toggle('active'); buildPrompt(); });
-  });
-  function getSelected(group) {
-    return Array.from(document.querySelectorAll(`[data-group="${group}"].active`))
-      .map(c => c.dataset.val).filter(Boolean);
-  }
-  function escape(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function buildPrompt() {
-    const style = getSelected('style');
-    const lighting = getSelected('lighting');
-    const reflect = getSelected('reflect');
-    const weather = getSelected('weather');
-    const post = getSelected('post');
-    const compat = Array.from(document.querySelectorAll('.compat-chip.active')).map(c => c.dataset.val);
-    const fps = document.getElementById('fps-slider').value;
-    const res = document.getElementById('res-slider').value;
-    const shadowSz = SHADOW_SIZES[document.getElementById('shadow-slider').value];
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">🎨</div><span class="sec-label">Visual style</span></div>
+        <div class="chips">
+          <div class="chip active" data-group="style" data-val="ultra-realistic photorealistic PBR rendering"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ultra-realistic</div><div class="chip-sub">Full PBR, physically based</div></div></div>
+          <div class="chip" data-group="style" data-val="cinematic film-quality color grading"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Cinematic</div><div class="chip-sub">Film LUTs, grade</div></div></div>
+          <div class="chip" data-group="style" data-val="fantasy stylized vibrant saturated"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Fantasy stylized</div><div class="chip-sub">Vibrant, saturated</div></div></div>
+          <div class="chip" data-group="style" data-val="dark atmospheric moody horror"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Dark & moody</div><div class="chip-sub">Low key, atmospheric</div></div></div>
+        </div>
+      </div>
 
-    const styleStr = style.length ? style.join(', ') : 'ultra-realistic photorealistic PBR rendering';
-    const compatStr = compat.length ? compat.join(', ') : 'OptiFine 1.20+';
+      <hr>
 
-    const allFeats = [...lighting, ...reflect, ...weather, ...post];
-    document.getElementById('feat-stat').textContent = allFeats.length + ' features';
-    document.getElementById('compat-stat').textContent = compat.length + ' loaders';
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">☀️</div><span class="sec-label">Lighting</span></div>
+        <div class="chips">
+          <div class="chip active" data-group="lighting" data-val="global illumination (GI) with multi-bounce light transport"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Global illumination</div><div class="chip-sub">Multi-bounce GI</div></div></div>
+          <div class="chip active" data-group="lighting" data-val="ray-traced soft shadows with PCF penumbra"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ray-traced shadows</div><div class="chip-sub">PCF soft penumbra</div></div></div>
+          <div class="chip active" data-group="lighting" data-val="volumetric god rays and light shafts"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Volumetric god rays</div><div class="chip-sub">Atmospheric light shafts</div></div></div>
+          <div class="chip" data-group="lighting" data-val="SSAO and HBAO ambient occlusion"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ambient occlusion</div><div class="chip-sub">SSAO / HBAO</div></div></div>
+          <div class="chip active" data-group="lighting" data-val="dynamic day-night cycle with color-accurate sun/moon"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Day/night cycle</div><div class="chip-sub">Color-accurate sky</div></div></div>
+          <div class="chip" data-group="lighting" data-val="emissive block glow propagation with colored lighting"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Emissive glow</div><div class="chip-sub">Colored block light</div></div></div>
+          <div class="chip" data-group="lighting" data-val="sub-surface scattering on foliage and skin"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Sub-surface scatter</div><div class="chip-sub">Foliage, skin translucency</div></div></div>
+          <div class="chip" data-group="lighting" data-val="area lights and soft shadow maps for torches and fire"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Area lights</div><div class="chip-sub">Torch & fire glow</div></div></div>
+        </div>
+      </div>
 
-    const raw = [
-      `[STYLE]\n${styleStr}`,
-      `\n[FILE STRUCTURE]\n- /shaders/world0/  ← overworld\n- /shaders/world-1/ ← nether\n- /shaders/world1/  ← end\n- gbuffers_*.fsh/.vsh  (geometry passes)\n- composite0..N.fsh    (post-process chain)\n- final.fsh            (output & UI overlay)\n- shaders.properties   (feature toggles, quality tiers)\n- README.md            (all uniforms + constants documented)`,
-      lighting.length ? `\n[LIGHTING]\n${lighting.map(l => `- ${l}`).join('\n')}` : '',
-      reflect.length ? `\n[REFLECTIONS & WATER]\n${reflect.map(r => `- ${r}`).join('\n')}` : '',
-      weather.length ? `\n[WEATHER & ATMOSPHERE]\n${weather.map(w => `- ${w}`).join('\n')}` : '',
-      post.length ? `\n[POST-PROCESSING]\n${post.map(p => `- ${p}`).join('\n')}` : '',
-      `\n[PERFORMANCE]\n- Target: ${fps} fps @ ${res}% internal resolution\n- Shadow map resolution: ${shadowSz}px\n- Quality tiers: QUALITY_LOW / QUALITY_MEDIUM / QUALITY_HIGH\n- Use LOD fallback beyond 128 blocks\n- Prefer mediump / half-precision where precision allows`,
-      `\n[COMPATIBILITY]\n- Loaders: ${compatStr}\n- Handle: nether ceiling, end void, underwater camera\n- Fallback paths for GPUs without compute shader support`,
-      `\n[CODE QUALITY]\n- Fully commented production-quality GLSL\n- No magic numbers — all constants named and explained\n- Deliver complete, working files — no placeholders`
-    ].filter(Boolean).join('');
+      <hr>
 
-    const highlighted = raw
-      .replace(/\[([A-Z &]+)\]/g, (_, k) => `<span class="ph">[${k}]</span>`)
-      .replace(/(- )([^\n]+)/g, (_, dash, val) => `${dash}<span class="pv">${escape(val)}</span>`)
-      .replace(/(←[^\n]*)/g, m => `<span class="pc">${m}</span>`);
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">💧</div><span class="sec-label">Reflections &amp; water</span></div>
+        <div class="chips">
+          <div class="chip active" data-group="reflect" data-val="screen-space reflections (SSR) with roughness blending"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">SSR reflections</div><div class="chip-sub">Roughness aware</div></div></div>
+          <div class="chip" data-group="reflect" data-val="ray-traced mirror reflections for glass and metal"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Ray-traced reflections</div><div class="chip-sub">Glass & metal</div></div></div>
+          <div class="chip active" data-group="reflect" data-val="animated water surface with Gerstner wave physics and foam"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Animated water</div><div class="chip-sub">Gerstner waves + foam</div></div></div>
+          <div class="chip" data-group="reflect" data-val="underwater caustics, refraction and god rays"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Underwater caustics</div><div class="chip-sub">Refraction, rays</div></div></div>
+          <div class="chip" data-group="reflect" data-val="planar reflections for calm water and glass floors"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Planar reflections</div><div class="chip-sub">Calm water, glass</div></div></div>
+          <div class="chip" data-group="reflect" data-val="specular highlights and microfacet BRDF on wet surfaces"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Microfacet BRDF</div><div class="chip-sub">Wet surface specular</div></div></div>
+        </div>
+      </div>
 
-    document.getElementById('prompt-out').innerHTML = highlighted;
-  }
-  function copyPrompt() {
-    const text = document.getElementById('prompt-out').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      const t = document.getElementById('toast');
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
-    });
-  }
-  function resetAll() {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('.compat-chip').forEach(c => c.classList.remove('active'));
-    const defs = [
-      'ultra-realistic photorealistic PBR rendering',
-      'global illumination (GI) with multi-bounce light transport',
-      'ray-traced soft shadows with PCF penumbra',
-      'volumetric god rays and light shafts',
-      'dynamic day-night cycle with color-accurate sun/moon',
-      'screen-space reflections (SSR) with roughness blending',
-      'animated water surface with Gerstner wave physics and foam',
-      'volumetric clouds with real-time weather simulation and lighting',
-      'HDR tone mapping with ACES filmic curve',
-      'bloom with lens flare and star-burst filter'
-    ];
-    defs.forEach(v => { const el = document.querySelector(`[data-val="${v}"]`); if (el) el.classList.add('active'); });
-    ['OptiFine 1.20+','Iris Shaders 1.6+'].forEach(v => { const el = document.querySelector(`.compat-chip[data-val="${v}"]`); if (el) el.classList.add('active'); });
-    document.getElementById('fps-slider').value = 60;
-    document.getElementById('fps-val').textContent = '60 fps';
-    document.getElementById('fps-stat').textContent = '60 fps';
-    document.getElementById('res-slider').value = 100;
-    document.getElementById('res-val').textContent = '100%';
-    document.getElementById('shadow-slider').value = 2;
-    document.getElementById('shadow-val').textContent = '2048';
-    buildPrompt();
-  }
+      <hr>
+
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">🌤</div><span class="sec-label">Weather &amp; atmosphere</span></div>
+        <div class="chips">
+          <div class="chip active" data-group="weather" data-val="volumetric clouds with real-time weather simulation and lighting"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Volumetric clouds</div><div class="chip-sub">Real-time weather sim</div></div></div>
+          <div class="chip" data-group="weather" data-val="realistic rain with surface puddle accumulation and ripples"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Rain & puddles</div><div class="chip-sub">Accumulation, ripples</div></div></div>
+          <div class="chip" data-group="weather" data-val="snowfall with surface accumulation on blocks"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Snow accumulation</div><div class="chip-sub">Block-surface snow</div></div></div>
+          <div class="chip" data-group="weather" data-val="atmospheric volumetric fog and mist with height falloff"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Volumetric fog</div><div class="chip-sub">Height-based falloff</div></div></div>
+          <div class="chip" data-group="weather" data-val="aurora borealis procedural night sky with star rendering"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Aurora night sky</div><div class="chip-sub">Procedural stars</div></div></div>
+          <div class="chip" data-group="weather" data-val="lightning bolts with procedural branch geometry and flash lighting"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Lightning</div><div class="chip-sub">Branching geometry</div></div></div>
+          <div class="chip" data-group="weather" data-val="wind-driven foliage and grass animation with noise displacement"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Wind animation</div><div class="chip-sub">Foliage & grass sway</div></div></div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">🎞</div><span class="sec-label">Post-processing</span></div>
+        <div class="chips">
+          <div class="chip active" data-group="post" data-val="HDR tone mapping with ACES filmic curve"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">HDR tone mapping</div><div class="chip-sub">ACES filmic curve</div></div></div>
+          <div class="chip" data-group="post" data-val="depth of field (DoF) with hexagonal bokeh"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Depth of field</div><div class="chip-sub">Hexagonal bokeh</div></div></div>
+          <div class="chip" data-group="post" data-val="per-object motion blur with velocity buffer"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Motion blur</div><div class="chip-sub">Per-object velocity</div></div></div>
+          <div class="chip active" data-group="post" data-val="bloom with lens flare and star-burst filter"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Bloom & lens flare</div><div class="chip-sub">Star-burst filter</div></div></div>
+          <div class="chip" data-group="post" data-val="chromatic aberration on screen edges"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Chromatic aberration</div><div class="chip-sub">Edge fringing</div></div></div>
+          <div class="chip" data-group="post" data-val="cinematic vignette with exposure adjustment"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Vignette</div><div class="chip-sub">Cinematic crop</div></div></div>
+          <div class="chip" data-group="post" data-val="FXAA or TAA anti-aliasing for smooth edges"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Anti-aliasing</div><div class="chip-sub">FXAA / TAA</div></div></div>
+          <div class="chip" data-group="post" data-val="color grading with adjustable saturation, contrast and hue shift"><div class="chip-dot"></div><div class="chip-body"><div class="chip-label">Color grading</div><div class="chip-sub">Sat / contrast / hue</div></div></div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">⚡</div><span class="sec-label">Performance target</span></div>
+        <div class="sliders">
+          <div class="slider-row">
+            <span class="slider-label">Target FPS</span>
+            <input type="range" min="30" max="144" step="30" value="60" id="fps-slider">
+            <span class="slider-val" id="fps-val">60 fps</span>
+          </div>
+          <div class="slider-row">
+            <span class="slider-label">Internal resolution</span>
+            <input type="range" min="50" max="200" step="25" value="100" id="res-slider">
+            <span class="slider-val" id="res-val">100%</span>
+          </div>
+          <div class="slider-row">
+            <span class="slider-label">Shadow map size</span>
+            <input type="range" min="0" max="3" step="1" value="2" id="shadow-slider">
+            <span class="slider-val" id="shadow-val">2048</span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="section">
+        <div class="sec-head"><div class="sec-icon">🔧</div><span class="sec-label">Target loaders</span></div>
+        <div class="compat-grid">
+          <div class="compat-chip active" data-group="compat" data-val="OptiFine 1.20+"><div class="compat-name">OptiFine</div><div class="compat-ver">1.20+</div></div>
+          <div class="compat-chip active" data-group="compat" data-val="Iris Shaders 1.6+"><div class="compat-name">Iris Shaders</div><div class="compat-ver">1.6+</div></div>
+          <div class="compat-chip" data-group="compat" data-val="Sodium + Iris pipeline"><div class="compat-name">Sodium + Iris</div><div class="compat-ver">pipeline</div></div>
+          <div class="compat-chip" data-group="compat" data-val="Canvas Renderer 1.0+"><div class="compat-name">Canvas</div><div class="compat-ver">Renderer</div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: live prompt sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <div class="sidebar-title">Live prompt</div>
+        <div class="stats-row">
+          <span class="stat-pill pill-green" id="feat-stat">0 features</span>
+          <span class="stat-pill pill-blue" id="fps-stat">60 fps</span>
+          <span class="stat-pill pill-amber" id="compat-stat">0 loaders</span>
+        </div>
+      </div>
+      <div class="prompt-scroll">
+        <div class="prompt-text" id="prompt-out"></div>
+      </div>
+      <div class="sidebar-actions">
+        <button class="btn btn-primary" onclick="copyPrompt()">📋 Copy prompt</button>
+        <button class="btn btn-ghost" onclick="resetAll()">↺ Reset defaults</button>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<footer>
+  <p>ShaderForge · © <span id="year"></span> Chosentechies</p>
+</footer>
+
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+const SHADOW_SIZES = ['512','1024','2048','4096'];
+
+document.getElementById('fps-slider').addEventListener('input', e => {
+  document.getElementById('fps-val').textContent = e.target.value + ' fps';
+  document.getElementById('fps-stat').textContent = e.target.value + ' fps';
   buildPrompt();
-	</script>
+});
+document.getElementById('res-slider').addEventListener('input', e => {
+  document.getElementById('res-val').textContent = e.target.value + '%';
+  buildPrompt();
+});
+document.getElementById('shadow-slider').addEventListener('input', e => {
+  document.getElementById('shadow-val').textContent = SHADOW_SIZES[e.target.value];
+  buildPrompt();
+});
+document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => { c.classList.toggle('active'); buildPrompt(); }));
+document.querySelectorAll('.compat-chip').forEach(c => c.addEventListener('click', () => { c.classList.toggle('active'); buildPrompt(); }));
+
+function getSelected(group) {
+  return Array.from(document.querySelectorAll(`[data-group="${group}"].active`)).map(c => c.dataset.val).filter(Boolean);
+}
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+function buildPrompt() {
+  const style = getSelected('style');
+  const lighting = getSelected('lighting');
+  const reflect = getSelected('reflect');
+  const weather = getSelected('weather');
+  const post = getSelected('post');
+  const compat = Array.from(document.querySelectorAll('.compat-chip.active')).map(c => c.dataset.val);
+  const fps = document.getElementById('fps-slider').value;
+  const res = document.getElementById('res-slider').value;
+  const shadowSz = SHADOW_SIZES[document.getElementById('shadow-slider').value];
+
+  const styleStr = style.length ? style.join(', ') : 'ultra-realistic photorealistic PBR rendering';
+  const compatStr = compat.length ? compat.join(', ') : 'OptiFine 1.20+';
+  const allFeats = [...lighting, ...reflect, ...weather, ...post];
+  document.getElementById('feat-stat').textContent = allFeats.length + ' features';
+  document.getElementById('compat-stat').textContent = compat.length + ' loaders';
+
+  const raw = [
+    `[STYLE]\n${styleStr}`,
+    `\n[FILE STRUCTURE]\n- /shaders/world0/  ← overworld\n- /shaders/world-1/ ← nether\n- /shaders/world1/  ← end\n- gbuffers_*.fsh/.vsh  (geometry passes)\n- composite0..N.fsh    (post-process chain)\n- final.fsh            (output & UI overlay)\n- shaders.properties   (feature toggles, quality tiers)\n- README.md            (all uniforms + constants documented)`,
+    lighting.length ? `\n[LIGHTING]\n${lighting.map(l => `- ${l}`).join('\n')}` : '',
+    reflect.length  ? `\n[REFLECTIONS & WATER]\n${reflect.map(r => `- ${r}`).join('\n')}` : '',
+    weather.length  ? `\n[WEATHER & ATMOSPHERE]\n${weather.map(w => `- ${w}`).join('\n')}` : '',
+    post.length     ? `\n[POST-PROCESSING]\n${post.map(p => `- ${p}`).join('\n')}` : '',
+    `\n[PERFORMANCE]\n- Target: ${fps} fps @ ${res}% internal resolution\n- Shadow map resolution: ${shadowSz}px\n- Quality tiers: QUALITY_LOW / QUALITY_MEDIUM / QUALITY_HIGH\n- Use LOD fallback beyond 128 blocks\n- Prefer mediump / half-precision where precision allows`,
+    `\n[COMPATIBILITY]\n- Loaders: ${compatStr}\n- Handle: nether ceiling, end void, underwater camera\n- Fallback paths for GPUs without compute shader support`,
+    `\n[CODE QUALITY]\n- Fully commented production-quality GLSL\n- No magic numbers — all constants named and explained\n- Deliver complete, working files — no placeholders`
+  ].filter(Boolean).join('');
+
+  const highlighted = raw
+    .replace(/\[([A-Z &]+)\]/g, (_, k) => `<span class="ph">[${k}]</span>`)
+    .replace(/(- )([^\n]+)/g, (_, d, val) => `${d}<span class="pv">${esc(val)}</span>`)
+    .replace(/(←[^\n]*)/g, m => `<span class="pc">${m}</span>`);
+
+  document.getElementById('prompt-out').innerHTML = highlighted;
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-out').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  });
+}
+
+function resetAll() {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.compat-chip').forEach(c => c.classList.remove('active'));
+  const defs = [
+    'ultra-realistic photorealistic PBR rendering',
+    'global illumination (GI) with multi-bounce light transport',
+    'ray-traced soft shadows with PCF penumbra',
+    'volumetric god rays and light shafts',
+    'dynamic day-night cycle with color-accurate sun/moon',
+    'screen-space reflections (SSR) with roughness blending',
+    'animated water surface with Gerstner wave physics and foam',
+    'volumetric clouds with real-time weather simulation and lighting',
+    'HDR tone mapping with ACES filmic curve',
+    'bloom with lens flare and star-burst filter'
+  ];
+  defs.forEach(v => { const el = document.querySelector(`[data-val="${v}"]`); if (el) el.classList.add('active'); });
+  ['OptiFine 1.20+','Iris Shaders 1.6+'].forEach(v => {
+    const el = document.querySelector(`.compat-chip[data-val="${v}"]`);
+    if (el) el.classList.add('active');
+  });
+  document.getElementById('fps-slider').value = 60;
+  document.getElementById('fps-val').textContent = '60 fps';
+  document.getElementById('fps-stat').textContent = '60 fps';
+  document.getElementById('res-slider').value = 100;
+  document.getElementById('res-val').textContent = '100%';
+  document.getElementById('shadow-slider').value = 2;
+  document.getElementById('shadow-val').textContent = '2048';
+  buildPrompt();
+}
+
+document.getElementById('year').textContent = new Date().getFullYear();
+buildPrompt();
+</script>
 </body>
 </html>

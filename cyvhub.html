@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYVHUB – Chosentechies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--card:#141414;--border:#222;--text:#e8e8e8;--muted:#666;--accent:#c8102e;--shadow:0 8px 24px rgba(0,0,0,.6);--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+
+header{position:sticky;top:0;z-index:50;background:rgba(13,13,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+.logo span{color:var(--accent)}
+nav ul{display:flex;list-style:none;gap:2px}
+nav a{padding:6px 13px;border-radius:7px;font-size:.82rem;font-weight:600;color:var(--muted);transition:color .15s,background .15s;text-transform:uppercase;letter-spacing:.04em}
+nav a:hover,nav a.active{color:var(--text);background:rgba(255,255,255,.06)}
+
+main{flex:1}
+.container{max-width:1100px;margin:0 auto;padding:56px 24px}
+
+.hero{padding:80px 24px 64px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-eyebrow{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(200,16,46,.3);border-radius:4px;padding:4px 12px;margin-bottom:20px}
+.hero h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;line-height:1.08;margin-bottom:14px;letter-spacing:-.01em}
+.hero p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 32px}
+.hero-actions{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-weight:700;font-size:.85rem;border:none;cursor:pointer;transition:all .18s;text-transform:uppercase;letter-spacing:.04em}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#a50d26;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,.05);border-color:#444}
+.btn-discord{background:#5865F2;color:#fff}
+.btn-discord:hover{background:#4752c4;transform:translateY(-1px)}
+.btn-roblox{background:#1a1a1a;color:var(--text);border:1px solid var(--border)}
+.btn-roblox:hover{background:#252525;border-color:#444}
+.btn-sm{padding:7px 14px;font-size:.75rem}
+
+.sec-label{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.sec-title{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.sec-sub{color:var(--muted);font-size:.9rem;margin-bottom:24px}
+
+/* GAME CARDS — clickable */
+.games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:48px}
+.game-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;transition:border-color .18s,transform .18s;
+  user-select:none;
+}
+.game-card:hover{border-color:#444;transform:translateY(-2px)}
+.game-card:hover .game-name{color:var(--accent)}
+.game-thumb{width:100%;height:130px;object-fit:cover;display:block;background:#111}
+.game-thumb-placeholder{width:100%;height:130px;background:linear-gradient(135deg,#1a1a1a,#111);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#333}
+.game-body{padding:16px 18px}
+.game-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.game-name{font-size:.95rem;font-weight:900;transition:color .15s}
+.game-status{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.status-live{background:rgba(61,186,110,.1);color:#3dba6e;border:1px solid rgba(61,186,110,.22)}
+.status-wip{background:rgba(200,16,46,.08);color:var(--accent);border:1px solid rgba(200,16,46,.2)}
+.game-desc{font-size:.8rem;color:var(--muted);margin-bottom:12px}
+.game-features{display:flex;flex-direction:column;gap:3px}
+.gf{font-size:.76rem;color:#888;padding-left:14px;position:relative}
+.gf::before{content:'–';position:absolute;left:0;color:#333}
+.game-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid var(--border);background:rgba(255,255,255,.015)}
+.game-footer-hint{font-size:.7rem;color:#444;text-transform:uppercase;letter-spacing:.06em}
+.game-arrow{font-size:.75rem;color:#444}
+
+/* SCRIPT BOX */
+.script-box{background:#0a0a0a;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:48px}
+.script-box-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.script-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.script-code{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#a0b0c0;padding:14px 16px;word-break:break-all;line-height:1.7}
+.btn-copy{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.73rem;padding:6px 13px;border-radius:7px;cursor:pointer;transition:all .15s;text-transform:none;letter-spacing:0}
+.btn-copy:hover{background:rgba(255,255,255,.1)}
+.btn-copy.copied{color:#3dba6e;border-color:rgba(61,186,110,.3)}
+
+/* FEATURES */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px}
+.feat-icon{font-size:1.1rem;margin-bottom:8px}
+.feat-card h4{font-size:.88rem;font-weight:800;margin-bottom:4px}
+.feat-card p{color:var(--muted);font-size:.81rem}
+
+/* ── MODAL ── */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:#111;border:1px solid #2a2a2a;border-radius:16px;
+  width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;
+  transform:translateY(12px);transition:transform .22s;overflow:hidden;
+}
+.overlay.open .modal{transform:translateY(0)}
+.modal-cover{width:100%;height:180px;object-fit:cover;display:block;background:#0a0a0a;flex-shrink:0}
+.modal-cover-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);flex-shrink:0}
+.modal-head{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title-row{display:flex;align-items:center;gap:10px}
+.modal-title{font-size:1.1rem;font-weight:900}
+.modal-close{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .15s}
+.modal-close:hover{background:rgba(255,255,255,.12);color:var(--text)}
+.modal-actions{display:flex;gap:8px;padding:14px 22px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.modal-scroll{flex:1;overflow-y:auto;padding:18px 22px;scrollbar-width:thin;scrollbar-color:#2a2a2a transparent}
+.modal-scroll::-webkit-scrollbar{width:4px}
+.modal-scroll::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:2px}
+.modal-cl-title{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:14px}
+
+/* changelog inside modal */
+.mcl-entry{border:1px solid #1e1e1e;border-radius:10px;overflow:hidden;margin-bottom:8px}
+.mcl-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;background:#0f0f0f}
+.mcl-header:hover{background:#141414}
+.mcl-game-tag{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.04);color:#666;border:1px solid #1e1e1e}
+.mcl-version{font-size:.8rem;font-weight:800}
+.mcl-date{font-size:.72rem;color:var(--muted);margin-left:auto}
+.mcl-badge{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:4px}
+.badge-latest{background:rgba(61,186,110,.1);color:#3dba6e;border:1px solid rgba(61,186,110,.2)}
+.badge-past{background:rgba(255,255,255,.03);color:#444;border:1px solid #1e1e1e}
+.badge-unknown{background:rgba(200,16,46,.06);color:#a00;border:1px solid rgba(200,16,46,.15)}
+.mcl-arrow{color:#444;font-size:.68rem;transition:transform .18s;flex-shrink:0}
+.mcl-entry.open .mcl-arrow{transform:rotate(90deg)}
+.mcl-body{display:none;padding:4px 16px 12px;border-top:1px solid #1a1a1a;background:#0a0a0a}
+.mcl-entry.open .mcl-body{display:block}
+.mcl-section{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin:10px 0 4px}
+.mcl-item{display:flex;align-items:flex-start;gap:7px;padding:3px 0;font-size:.79rem;color:#777;border-bottom:1px solid #111}
+.mcl-item:last-child{border-bottom:none}
+.mcl-sym{font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:2px}
+.sym-add{color:#3dba6e}
+.sym-change{color:#d4a017}
+.sym-fix{color:#888}
+.mcl-note{font-size:.72rem;color:#444;margin-left:2px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#3dba6e;color:#fff;font-size:.78rem;font-weight:700;padding:8px 20px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+
+footer{background:#080808;border-top:1px solid var(--border);padding:16px 24px;text-align:center;color:var(--muted);font-size:.8rem}
+
+@media(max-width:860px){.games-grid,.feats{grid-template-columns:1fr}}
+@media(max-width:760px){nav ul{flex-wrap:wrap;gap:2px}nav a{padding:5px 9px;font-size:.76rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html">Chosen<span>techies</span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="cyvcore.html">CYVCORE</a></li>
+        <li><a href="cyvhub.html" class="active">CYVHUB</a></li>
+        <li><a href="shader-forge.html">ShaderForge</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-eyebrow">Roblox · Script Hub</div>
+    <h1>CYVHUB</h1>
+    <p>Scripts for popular Roblox games — one hub, always updated. Key is free in our Discord.</p>
+    <div class="hero-actions">
+      <a class="btn btn-discord" href="https://discord.gg/ZmPhEuhE" target="_blank">Discord — get key</a>
+      <a class="btn btn-ghost" href="projects.html">All projects</a>
+    </div>
+  </section>
+
+  <section class="container">
+
+    <div class="sec-label">Supported games</div>
+    <div class="sec-title">What's in CYVHUB</div>
+    <div class="sec-sub">Click a game to see its changelog, script, and Roblox page.</div>
+    <div class="games-grid">
+
+      <div class="game-card" onclick="openModal('rivals')">
+        <div class="game-thumb-placeholder">🎯</div>
+        <div class="game-body">
+          <div class="game-top">
+            <span class="game-name">Rivals</span>
+            <span class="game-status status-wip">Remaking</span>
+          </div>
+          <p class="game-desc">Competitive Roblox shooter. Script is being remade.</p>
+          <div class="game-features">
+            <span class="gf">ESP</span>
+            <span class="gf">Aimbot</span>
+            <span class="gf">More with remake</span>
+          </div>
+        </div>
+        <div class="game-footer">
+          <span class="game-footer-hint">Click for details</span>
+          <span class="game-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="game-card" onclick="openModal('gag2')">
+        <div class="game-thumb-placeholder">🌱</div>
+        <div class="game-body">
+          <div class="game-top">
+            <span class="game-name">Grow a Garden 2</span>
+            <span class="game-status status-live">Live</span>
+          </div>
+          <p class="game-desc">Automation for farming, planting, and selling.</p>
+          <div class="game-features">
+            <span class="gf">Auto Buy Seeds</span>
+            <span class="gf">Auto Sell Inventory</span>
+            <span class="gf">Auto Plant Seeds</span>
+            <span class="gf">Auto Collect</span>
+            <span class="gf">Stats Panel</span>
+          </div>
+        </div>
+        <div class="game-footer">
+          <span class="game-footer-hint">Click for details</span>
+          <span class="game-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="game-card" onclick="openModal('slimerng')">
+        <div class="game-thumb-placeholder">🟢</div>
+        <div class="game-body">
+          <div class="game-top">
+            <span class="game-name">Slime RNG</span>
+            <span class="game-status status-wip">Remaking</span>
+          </div>
+          <p class="game-desc">Rolling, farming, and zone automation.</p>
+          <div class="game-features">
+            <span class="gf">Auto Roll</span>
+            <span class="gf">Teleport to all zones</span>
+            <span class="gf">Auto Collect Loot</span>
+            <span class="gf">Auto Buy Upgrades</span>
+            <span class="gf">Player movement mods</span>
+          </div>
+        </div>
+        <div class="game-footer">
+          <span class="game-footer-hint">Click for details</span>
+          <span class="game-arrow">→</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Single loader script -->
+    <div class="sec-label">Script</div>
+    <div class="sec-title">Hub loader</div>
+    <div class="sec-sub" style="margin-bottom:16px">One script loads the full hub. Key required — get it free in Discord.</div>
+    <div class="script-box">
+      <div class="script-box-head">
+        <span class="script-label">CYVHUB Loader</span>
+        <button class="btn-copy" id="main-copy-btn" onclick="copyMain()">Copy</button>
+      </div>
+      <div class="script-code">loadstring(game:HttpGet('https://raw.githubusercontent.com/urmoit/CYVHub/refs/heads/main/main.lua'))()</div>
+    </div>
+
+    <!-- Features -->
+    <div class="sec-label">Features</div>
+    <div class="sec-title">What makes CYVHUB different</div>
+    <div class="sec-sub">Built to be simple and reliable.</div>
+    <div class="feats">
+      <div class="feat-card">
+        <div class="feat-icon">🔑</div>
+        <h4>Free key</h4>
+        <p>Key is free and available in our Discord server. No paywalls.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔄</div>
+        <h4>Kept updated</h4>
+        <p>Scripts are updated after game patches to keep them working.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎮</div>
+        <h4>Game-specific</h4>
+        <p>Scripts built for each game — actual per-game features, not generic tools.</p>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  <p>© <span id="year"></span> Chosentechies · CYVHUB · <a href="https://discord.gg/ZmPhEuhE" target="_blank" style="color:var(--muted);text-decoration:underline">Discord</a></p>
+</footer>
+
+<!-- ── MODALS ── -->
+
+<!-- Rivals -->
+<div class="overlay" id="modal-rivals" onclick="closeOnBg(event,'rivals')">
+  <div class="modal">
+    <div class="modal-cover-placeholder">🎯</div>
+    <div class="modal-head">
+      <div class="modal-title-row">
+        <span class="modal-title">Rivals</span>
+        <span class="game-status status-wip">Remaking</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('rivals')">✕</button>
+    </div>
+    <div class="modal-actions">
+      <a class="btn btn-roblox btn-sm" href="https://www.roblox.com/games/17625359962/Rivals" target="_blank">🎮 Roblox page</a>
+      <a class="btn btn-discord btn-sm" href="https://discord.gg/ZmPhEuhE" target="_blank">Discord updates</a>
+    </div>
+    <div class="modal-scroll">
+      <div class="modal-cl-title">Changelog</div>
+
+      <!-- V3.0.0 coming soon -->
+      <div class="mcl-entry open">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V3.0.0</span>
+          <span class="mcl-badge badge-unknown">Coming soon</span>
+          <span class="mcl-date">—</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Full remake in progress. Join Discord for updates and early access.</span></div>
+        </div>
+      </div>
+
+      <!-- V2.1.0 -->
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V2.1.0</span>
+          <span class="mcl-badge badge-latest">Latest</span>
+          <span class="mcl-date">—</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Mobile aimbot hold button for touch users</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Overlay stats now show instantly on toggle</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Detailed server stats tab</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Detailed server stats button</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Removed teleport tab</span></div>
+        </div>
+      </div>
+
+      <!-- V2.0.0 -->
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V2.0.0</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">—</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Complete UI rebuild with Starlight library</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Keybinds attach directly to toggles (SyncToggleState)</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Unique default keybind per feature</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed FOV</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Mobile double-tap aimbot support</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto-lock duration: 2 seconds</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Corner box ESP auto-sizes to hitbox</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Tracer lines from screen center</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Chams, health bars, nametags</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Enemy-only strict mode</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Color picker for ESP</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>1000 stud render distance</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed Starlight API mismatches</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed FOV circle visibility</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>New config folder (CYVHUB_Rivals_v2)</span></div>
+        </div>
+      </div>
+
+      <!-- V1.0.3 -->
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V1.0.3</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">—</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-section">Aimbot</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Enemy-only strict: never locks onto teammates, checks Team/TeamColor/TeamId</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>FOV circle init deferred with task.defer — no freeze on inject</span></div>
+          <div class="mcl-section">ESP</div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Fully rewritten using Drawing API lines only — no Highlight/BillboardGui instances</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Box mode: full 4-line rectangle around character bounding box</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Corners mode: bracket corners only</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Skeleton mode: bone lines through all limbs + corner brackets</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Health bar: vertical Drawing line, black BG + green→yellow→red fill</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Nametag: Drawing Text showing name, HP and distance</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Enemy-only strict: teammates never shown</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>ESP mode dropdown: Box / Corners / Skeleton</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Object pool: Drawing lines created once per player, reused every frame</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>updateESPForPlayer wrapped in pcall — one player error won't kill the loop</span></div>
+          <div class="mcl-section">Performance</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>All startup work deferred — eliminates 1–5 sec freeze on inject</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>hookUIObject descendant scan deferred to after first frame</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>charBounds uses GetChildren() instead of GetDescendants() — faster</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>ESP loop moved directly into RenderStepped:Connect — no task.spawn desync</span></div>
+          <div class="mcl-section">Bug Fixes</div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed charBounds double-call variable unpacking bug that broke ESP entirely</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed ESP silently dying when one player errored — now pcall protected</span></div>
+        </div>
+      </div>
+
+      <!-- V1.0.2 -->
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V1.0.2</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">—</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-section">Aimbot</div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed FOV circle using wrong coordinate space (now uses raw GetMouseLocation)</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Switched to WorldToViewportPoint — more accurate screen position + onScreen bool</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Z-depth guard — targets behind camera no longer get locked</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Lock drops and reacquires when target drifts outside FOV radius mid-fight</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Smooth lerp replaces delta×sensitivity — speed consistent at all ranges</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Raw snap mode available when smoothing is toggled off</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>HumanoidRootPart added as a third target bone option</span></div>
+          <div class="mcl-section">ESP</div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Fixed blinking — highlights persist and update in-place, never recreated</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Enemy-only: teammates never highlighted</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Nametag shows Name | HP/MaxHP | distance in metres</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Distance and HP text individually toggleable</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Highlight outline with separate transparency control</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Rounded corners on health bar via UICorner</span></div>
+          <div class="mcl-section">UI / Organisation</div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Full script reorganised into 16 numbered sections with header comments</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Every tab uses CreateSection and CreateDivider</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Tabs use Lucide icon strings instead of image IDs</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Teleport buttons wrapped in pcall with Rayfield error notification</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Home tab added: welcome, feature overview, keybind reference, changelog</span></div>
+          <div class="mcl-section">Stability</div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>HumanModCons connections fully disconnected on cheat close</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>All keybind resets, fly conn, and FOV circle cleaned up on unload</span></div>
+        </div>
+      </div>
+
+      <!-- V1.0.1 -->
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V1.0.1</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">—</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-section">Aimbot</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Single FOV circle with shared cleanup; mouse-centered ring removed by default</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Cursor/inset-aware positioning for accurate head locks</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Fallback to Head/BasePart if chosen part is missing</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Enemy-only locking; clears invalid targets automatically</span></div>
+          <div class="mcl-section">ESP</div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Highlights stay on (blink only when toggle is enabled)</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Enemy-only filtering with safe fallback when team data is missing</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>AlwaysOnTop highlights; safer nametag storage/restore</span></div>
+          <div class="mcl-section">UI / Config</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Added DisableMouseFOVCircle (default true)</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-fix">*</span><span>Cleans old FOV objects/connections across reloads to prevent duplicates</span></div>
+          <div class="mcl-section">Stability</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Extra connection/object cleanup to avoid ghost visuals and flicker</span></div>
+        </div>
+      </div>
+
+      <!-- V1.0.0 -->
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-version">V1.0.0</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">Initial release</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-section">General tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>First release (has bugs)</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Grow a Garden 2 -->
+<div class="overlay" id="modal-gag2" onclick="closeOnBg(event,'gag2')">
+  <div class="modal">
+    <div class="modal-cover-placeholder">🌱</div>
+    <div class="modal-head">
+      <div class="modal-title-row">
+        <span class="modal-title">Grow a Garden 2</span>
+        <span class="game-status status-live">Live</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('gag2')">✕</button>
+    </div>
+    <div class="modal-actions">
+      <a class="btn btn-roblox btn-sm" href="https://www.roblox.com/games/123456789/Grow-a-Garden-2" target="_blank">🎮 Roblox page</a>
+      <a class="btn btn-discord btn-sm" href="https://discord.gg/ZmPhEuhE" target="_blank">Discord</a>
+    </div>
+    <div class="modal-scroll">
+      <div class="modal-cl-title">Changelog</div>
+
+      <div class="mcl-entry open">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-game-tag">Grow a Garden 2</span>
+          <span class="mcl-version">v1.0.0</span>
+          <span class="mcl-badge badge-latest">Latest</span>
+          <span class="mcl-date">June 17, 2026</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-section">Auto Farm tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Buy Seeds added</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Sell Inventory added</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Plant Seeds added</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Collect added</span></div>
+          <div class="mcl-section">Misc tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Stats Panel added</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Slime RNG -->
+<div class="overlay" id="modal-slimerng" onclick="closeOnBg(event,'slimerng')">
+  <div class="modal">
+    <div class="modal-cover-placeholder">🟢</div>
+    <div class="modal-head">
+      <div class="modal-title-row">
+        <span class="modal-title">Slime RNG</span>
+        <span class="game-status status-wip">Remaking</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('slimerng')">✕</button>
+    </div>
+    <div class="modal-actions">
+      <a class="btn btn-roblox btn-sm" href="https://www.roblox.com/games/16814735506/Slime-RNG" target="_blank">🎮 Roblox page</a>
+      <a class="btn btn-discord btn-sm" href="https://discord.gg/ZmPhEuhE" target="_blank">Discord</a>
+    </div>
+    <div class="modal-scroll">
+      <div class="modal-cl-title">Changelog</div>
+
+      <div class="mcl-entry open">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-game-tag">Slime RNG</span>
+          <span class="mcl-version">v1.0.2</span>
+          <span class="mcl-badge badge-latest">Latest</span>
+          <span class="mcl-date">June 1, 2026</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Bumped script version</span></div>
+          <div class="mcl-section">Teleport tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Teleport updated <span class="mcl-note">— added new areas</span></span></div>
+        </div>
+      </div>
+
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-game-tag">Slime RNG</span>
+          <span class="mcl-version">v1.0.1</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">May 28, 2026</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Bumped script version</span></div>
+          <div class="mcl-section">Player tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Anti AFK upgraded <span class="mcl-note">— avatar jumps, slider for frequency</span></span></div>
+          <div class="mcl-section">Main tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Collect Loot added <span class="mcl-note">— fruits, potions, food on spawn</span></span></div>
+          <div class="mcl-section">Upgrades tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Auto Buy Upgrades — faster</span></div>
+          <div class="mcl-section">Teleport tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Teleport added <span class="mcl-note">— all zones: Grasslands, Desert, Polar, Volcano, Islands, Cave, Heaven, Jungle, Canyon, Mushroom Forest, Moon, Redwood Forest, Meteor, Candyland, Cherry Grove, Crystal Cavern, Pumpkin Patch, Atlantis, River, Pyramid, Graveyard, Hot Springs, Tribe, Toxic Wasteland, Steampunk, Winter Wonderland, Farm, Jungle Temple, Cyberpunk, Void, Ocean, Coral Reef, Deep Sea, Glow Mine, Alien Planet, Haunted House, Skull Island, Slime Inc.</span></span></div>
+          <div class="mcl-section">Misc</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Solo developer info added to every tab except home</span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-change">~</span><span>Small UI and reliability improvements</span></div>
+        </div>
+      </div>
+
+      <div class="mcl-entry">
+        <div class="mcl-header" onclick="toggleMcl(this)">
+          <span class="mcl-game-tag">Slime RNG</span>
+          <span class="mcl-version">v1.0.0</span>
+          <span class="mcl-badge badge-past">Past</span>
+          <span class="mcl-date">Initial release</span>
+          <span class="mcl-arrow">▶</span>
+        </div>
+        <div class="mcl-body">
+          <div class="mcl-section">Home tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Home tab <span class="mcl-note">— overview, user info, session info, quick actions</span></span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Discord button, Copy User ID, Close UI added</span></div>
+          <div class="mcl-section">Player tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Walk Speed, Jump Power, Infinite Jump, Fly, Noclip, Anti AFK, Reset Character, Rejoin Server added</span></div>
+          <div class="mcl-section">Main tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Roll <span class="mcl-note">— continuous loop</span></span></div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Roll Once added</span></div>
+          <div class="mcl-section">Upgrades tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Buy All Upgrades Once, Auto Buy Upgrades added</span></div>
+          <div class="mcl-section">Zones tab</div>
+          <div class="mcl-item"><span class="mcl-sym sym-add">+</span><span>Auto Buy Next Zone, Auto Teleport To Last Zone added</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function openModal(id) {
+  document.getElementById('modal-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById('modal-' + id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnBg(e, id) {
+  if (e.target === e.currentTarget) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.overlay.open').forEach(el => {
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+
+function toggleMcl(header) {
+  header.closest('.mcl-entry').classList.toggle('open');
+}
+
+function copyMain() {
+  const script = "loadstring(game:HttpGet('https://raw.githubusercontent.com/urmoit/CYVHub/refs/heads/main/main.lua'))()";
+  const btn = document.getElementById('main-copy-btn');
+  navigator.clipboard.writeText(script).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    showToast();
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
